@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stddef.h>
+int main(){
+    FILE * plik;
+    int dlu=0,ilo,i=1,j=0, k=0;
+    //wszystkie znaki dialektyczne zostaly wymienione
+    if ((plik=fopen("Lista_slow.txt","r+"))==NULL){
+        printf(" Problem z otworzeniem pliku\n");
+        return 1;
+      }
+    printf("Jak dlugie powinno byc slowo?\n");
+    scanf("%i",&dlu);
+    while(dlu>=14){
+        printf("Slowo jest za dlugie podaj liczbę do 14");
+        scanf("%i",&dlu);
+    }
+    while(dlu<2){
+         printf("Slowo jest za krótkie podaj liczbę od 2");
+         scanf("%i",&dlu);
+    }
+    printf("Ile chcesz miec prob na odganiecie slowa?\n");
+    scanf("%i",&ilo);
+    char *zgad=(char*)malloc(sizeof(char)*(dlu+1));
+    literki_w_strukturze();
+    char *haslo=(char*)malloc(sizeof(char)*(dlu+1));
+    while(i!=dlu){
+        k=slowa();
+        if(j!=0){
+            k=0;
+        }
+        fseek(plik,k,SEEK_SET);
+        if((fscanf(plik,"%s",haslo))==1){
+            while((fscanf(plik,"%s",haslo))==1){
+                i=czy_slowo_ma_odpowiednia_dlugosc(haslo);
+                if(i==dlu){
+                    break;
+                }
+            }
+            j++;
+        }
+    }
+    printf("Zgadnij\n");
+    for(int r=0;r<ilo;r++){
+        scanf("%s",zgad);
+        i=czy_slowo_ma_odpowiednia_dlugosc(zgad);
+        if(i==dlu){
+            if((strcmp(zgad,haslo))==0){
+                printf("\nGratulacje!!!!");
+                return 0;
+            }
+            czy_ta_litera_sie_powtarza(zgad,haslo,dlu);
+        }
+        else{
+            printf("\nSlowo ma nieodpowiednia dlugosc!!!\n");
+            r--;
+        }
+    }
+    if(i!=20){
+        printf("Sprobuj jeszcze raz !\n");
+        printf("Poprawna odpowiedz to: %s",haslo);
+    }
+    return 0;
+}
