@@ -5,7 +5,7 @@ int main(){
     FILE * plik;
     int dlu=0,ilo,i=1,j=0, k=0;
     //wszystkie znaki dialektyczne zostaly wymienione
-    if ((plik=fopen("Lista_slow.txt","r+"))==NULL){
+    if ((plik=fopen("List_of_words.txt","r+"))==NULL){
         printf(" Problem z otworzeniem pliku\n");
         return 1;
       }
